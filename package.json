@@ -1,0 +1,24 @@
+{
+  "name": "films-fans-project",
+  "version": "1.0.0",
+  "description": "A API Rocketseat made by Explorer program",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app/index.js",
+    "dev": "npx nodemon src/app/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "npx knex migrate:latest --knexfile ./src/db/knexfile.js",
+    "ci": "npm run migrate && npm start"
+  },
+  "author": "Josiel Nascimento",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "knex": "^2.5.1",
+    "pg": "^8.11.1",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
