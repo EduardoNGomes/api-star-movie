@@ -1,7 +1,6 @@
-const express = require('express');
-const { router } = require('./Utils/routeAnnotation');
-const FilmesController = require('./Filmes/Filmes.controller');
-const ComentarioController = require('./Comentarios/Comentarios.controller');
+import express from 'express';
+import { router } from './Utils/routeAnnotation.js'
+
 
 const app = express();
 const port = 4002;

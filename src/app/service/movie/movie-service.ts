@@ -1,11 +1,11 @@
-const FilmesRepository = require('./Filmes.repository');
+import { randomUUID } from 'crypto';
+import FilmesRepository from '../../repository/knex-repository/movie-repository';
 const filmesRepository = new FilmesRepository();
-const { v4: uuidv4 } = require('uuid');
 
-class FilmesService {
+export class MovieService {
 
-    createFilme = async (body) => {
-       const idFilme = uuidv4();
+    createMovie = async (body) => {
+       const idFilme = randomUUID();
        const datAtual = Date.now();
        const data = {
         'id': idFilme,
@@ -19,26 +19,24 @@ class FilmesService {
        return response;
     }
     
-    readAllFilmes = async() => {
+    readAllMovies = async() => {
         const response = await filmesRepository.readAllFilmes();
         return response;
     }
     
-    findFilmeById = async(id) => {
+    findMovieById = async(id) => {
        const response = await filmesRepository.findFilmeById(id);
        return response;
     }
     
-    updateFilme = async(id, body) => {
+    updateMovie = async(id, body) => {
         const response = await filmesRepository.updateFilme(id, body);
         return response;
     }
     
-    deleteFilme = async(id) => {
+    deleteMovie = async(id:string ) => {
         const response = await filmesRepository.deleteFilme(id)
         return response;
     }
 
 }
-
-module.exports = FilmesService

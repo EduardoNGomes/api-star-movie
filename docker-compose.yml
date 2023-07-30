@@ -1,8 +1,7 @@
-version: "3.1"
+version: '3.1'
 
 services:
   postgres:
-    container_name: postgres-film-fans
     image: postgres:15-alpine3.18
     environment:
       - POSTGRES_USER=film
@@ -10,6 +9,6 @@ services:
       - POSTGRES_DB=filmfans
       - POSTGRES_HOST_AUTH_METHOD=md5
     volumes:
-      - ./data-postgresql:/var/lib/postgresql/data
+      - /data-postgresql:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - '5432:5432'
