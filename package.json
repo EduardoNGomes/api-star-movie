@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node src/app/index.ts",
     "dev": "tsx --watch src/app/index.ts",
-    "migrate": "npx knex migrate:latest --knexfile ./src/db/knexfile.js",
+    "knex": "node --no-warnings --loader tsx ./node_modules/.bin/knex",
+    "migrate-deploy": "npx knex --knexfile knexfile.ts migrate:latest ",
+    "lint": "eslint src --ext .ts --fix",
+    "build": "tsup src --out-dir build",
     "ci": "npm run migrate && npm start"
   },
   "author": "Eduardo Nascimento Gomes",
@@ -16,7 +19,8 @@
     "express": "^4.18.2",
     "knex": "^2.5.1",
     "pg": "^8.11.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",

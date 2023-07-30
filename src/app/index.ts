@@ -1,5 +1,6 @@
 import express from 'express';
 import { router } from './Utils/routeAnnotation.js'
+import { env } from '../env/index.js';
 
 
 const app = express();
@@ -8,10 +9,9 @@ app.use(express.json());
 app.use(router);
 
 app.listen(port, () => {
-    console.log(`Server Film Fans is running on port ${port}`);
+    console.log(`Server Film Fans is running on port ${env.PORT}`);
 })
 
-//GET, POST, PATCH, PUT, DELETE
 
 app.get('/v1/film-fans/check-live', (req, res) => {
     res.send("I'm live and breathing");

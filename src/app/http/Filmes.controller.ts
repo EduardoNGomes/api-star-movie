@@ -24,6 +24,7 @@ const findMovieById = async (req: Request, res: Response) => {
 
 const updateMovie = async (req: Request, res: Response) => {
   const id = req.params.id
+  const body = req.body
   const response = await movieService.updateMovie(id, body)
   res.status(200).json(response)
 }
