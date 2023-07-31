@@ -1,14 +1,14 @@
 import express from 'express';
-import { router } from './Utils/routeAnnotation.js'
 import { env } from '../env/index.js';
-
+import { routes } from './http/routes/index.js';
 
 const app = express();
-const port = 4002;
 app.use(express.json());
-app.use(router);
 
-app.listen(port, () => {
+
+app.use(routes)
+
+app.listen(env.PORT, () => {
     console.log(`Server Film Fans is running on port ${env.PORT}`);
 })
 

@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
-import {MovieService} from '../service/movie/movie-service'
+import {MovieService} from '../../service/movie/movie-service'
 
 const movieService = new MovieService()
 
 const createMovie = async (req: Request, res: Response) => {
   const body = req.body
   const response = movieService.createMovie(body)
-  console.log('Criado: ', response)
-  res.status(201).json()
+  
+  res.status(201).json({message:'Cheguei aqui'})
 }
 
 const readAllMovies = async (req: Request, res: Response) => {
@@ -35,4 +35,11 @@ const deleteMovie = async (req: Request, res: Response) => {
   res.status(200).json(response)
 }
 
+export {
+  createMovie,
+  findMovieById,
+  readAllMovies,
+  updateMovie,
+  deleteMovie
+}
 

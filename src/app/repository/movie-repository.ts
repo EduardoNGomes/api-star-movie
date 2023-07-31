@@ -1,23 +1,22 @@
 export interface MovieProps {
-  id: string
-  name: string
-  created_at: string
-  email: string
-  password: string
-  threads_url?: string
-  twitter_url?: string
-  tiktok_url?: string
-  instagram_url?: string
+  id?: string
+  user_id?: string
+  title: string
+  age: string
+  image: string
+  sinopse?: string
+  created_at?: string
+  updated_at?: string
 }
 
 export interface MovieRepository {
-  createMovie({created_at,email,id,instagram_url,name,password,threads_url,tiktok_url,twitter_url}:MovieProps): Promise<MovieProps> 
+  createMovie(movieData: MovieProps): Promise<MovieProps>
 
   readAllMovie(): Promise<MovieProps[]>
 
-  findMovieById(id:string): Promise<MovieProps>
+  findMovieById(id: string): Promise<MovieProps | null>
 
-  updateMovie({created_at,email,id,instagram_url,name,password,threads_url,tiktok_url,twitter_url}:MovieProps): Promise<MovieProps>
+  updateMovie(movieData: MovieProps): Promise<MovieProps | null>
 
-  deleteMovie(id:string): Promise<void>
+  deleteMovie(id: string): Promise<void>
 }

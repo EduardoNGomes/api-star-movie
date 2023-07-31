@@ -6,14 +6,14 @@ export const config: Knex.Config = {
   connection:
     env.DATABASE_CLIENT === 'sqlite'
       ? {
-          filename: env.DATABASE_URL
+          filename: env.DATABASE_URL,
         }
       : env.DATABASE_URL,
   useNullAsDefault: true,
   migrations: {
     extension: 'ts',
-    directory: './src/db/migrations'
-  }
+    directory: './src/db/migrations',
+  },
 }
 
 export const knex = setupKnex(config)
