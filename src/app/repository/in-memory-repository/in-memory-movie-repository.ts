@@ -1,11 +1,18 @@
+import { randomUUID } from 'crypto'
 import { MovieProps, MovieRepository } from '../movie-repository'
 
 export class InMemoryMovieRepository implements MovieRepository {
   items: MovieProps[] = []
 
   async createMovie(movieData: MovieProps) {
-    this.items.push(movieData)
-    return movieData
+    const movieToCreate = {
+      id: randomUUID(),
+      ...movieData,
+      created_at: new Date(),
+      updated_at: new Date(),
+    }
+    this.items.push(movieToCreate)
+    return movieToCreate
   }
 
   async readAllMovie() {

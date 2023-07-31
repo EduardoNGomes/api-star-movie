@@ -1,10 +1,15 @@
 import { knex } from '@/db/knexfile'
 import { MovieProps, MovieRepository } from '../movie-repository'
+import { randomUUID } from 'crypto'
 
 export class KnexMovieRepository implements MovieRepository {
   async createMovie(movieData: MovieProps) {
+    const movieToCreate = {
+      id: randomUUID(),
+      ...movieData,
+    }
     const dataResp = await knex('movies')
-      .insert(movieData)
+      .insert(movieToCreate)
       .returning('*')
       .first()
     return dataResp

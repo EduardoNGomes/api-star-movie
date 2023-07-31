@@ -4,9 +4,9 @@ export interface MovieProps {
   title: string
   age: string
   image: string
-  sinopse?: string
-  created_at?: string
-  updated_at?: string
+  sinopse: string
+  created_at?: Date
+  updated_at?: Date
 }
 
 export interface MovieRepository {
