@@ -3,6 +3,7 @@ export interface UserProps {
   name: string
   created_at?: Date
   updated_at?: Date
+  image?: string
   email: string
   password: string
   threads_url?: string

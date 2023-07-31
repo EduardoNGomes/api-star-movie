@@ -12,7 +12,7 @@ describe('Update User', () => {
     userService = new UserService(inMemoryUserRepository)
   })
 
-  it('should create a new user', async () => {
+  it('should update user', async () => {
     await inMemoryUserRepository.createUser({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -41,7 +41,7 @@ describe('Update User', () => {
     )
   })
 
-  it('shouldnt create a new user because this use has exist', async () => {
+  it('shouldnt update user with wrong email', async () => {
     await inMemoryUserRepository.createUser({
       name: 'John Doe',
       email: 'johndoe@example.com',

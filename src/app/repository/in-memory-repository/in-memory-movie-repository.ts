@@ -28,23 +28,26 @@ export class InMemoryMovieRepository implements MovieRepository {
     return movie
   }
 
-  async updateMovie(movieData: MovieProps) {
-    const index = this.items.findIndex((movie) => movie.id === movieData.id)
+  async updateMovie(id: string, rating: number) {
+    const index = this.items.findIndex((movie) => movie.id === id)
 
     if (index === -1) {
       return null
     }
     const updatedMovies = this.items.map((movie) =>
-      movie.id === movieData.id ? movieData : movie,
+      movie.id === id ? { ...movie, rating } : movie,
     )
 
     this.items = updatedMovies
-    return movieData
+    return this.items[index]
   }
 
   async deleteMovie(id: string) {
     const newMovieList = this.items.filter((movie) => movie.id !== id)
 
     this.items = newMovieList
+
+    const message = 'deleted'
+    return message
   }
 }

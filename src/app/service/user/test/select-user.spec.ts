@@ -2,24 +2,28 @@ import { describe, beforeEach, it, expect } from 'vitest'
 import { UserService } from '../user-service'
 import { InMemoryUserRepository } from '@/app/repository/in-memory-repository/in-memory-user-repository'
 import { randomUUID } from 'crypto'
+import { UserProps } from '@/app/repository/user-repository'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let userService: UserService
 
-describe('Create User', () => {
+let userMock: UserProps
+
+describe('Select User', () => {
   beforeEach(async () => {
     inMemoryUserRepository = new InMemoryUserRepository()
     userService = new UserService(inMemoryUserRepository)
-  })
 
-  it('should create a new user', async () => {
-    const mockUser = {
+    userMock = await inMemoryUserRepository.createUser({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'mysecretpassword',
-    }
+    })
+  })
 
-    const { user } = await userService.createUser(mockUser)
+  it('should select user', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const { user } = await userService.selectUser(userMock.id!)
 
     expect(user).toEqual(
       expect.objectContaining({
@@ -29,18 +33,9 @@ describe('Create User', () => {
     )
   })
 
-  it('shouldnt create a new user because this use has exist', async () => {
-    const userExist = await inMemoryUserRepository.createUser({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: 'mysecretpassword',
-      id: randomUUID(),
-      created_at: new Date(),
-      updated_at: new Date(),
-    })
-
+  it('shouldnt select user with invalid email', async () => {
     await expect(() =>
-      userService.createUser(userExist),
+      userService.selectUser(randomUUID()),
     ).rejects.toBeInstanceOf(Error)
   })
 })
