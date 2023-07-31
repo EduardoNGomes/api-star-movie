@@ -6,31 +6,14 @@ import { randomUUID } from 'crypto'
 let inMemoryUserRepository: InMemoryUserRepository
 let userService: UserService
 
-describe('Create User', () => {
+describe('Update User', () => {
   beforeEach(async () => {
     inMemoryUserRepository = new InMemoryUserRepository()
     userService = new UserService(inMemoryUserRepository)
   })
 
   it('should create a new user', async () => {
-    const mockUser = {
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: 'mysecretpassword',
-    }
-
-    const { user } = await userService.createUser(mockUser)
-
-    expect(user).toEqual(
-      expect.objectContaining({
-        name: 'John Doe',
-        email: 'johndoe@example.com',
-      }),
-    )
-  })
-
-  it('shouldnt create a new user because this use has exist', async () => {
-    const userExist = await inMemoryUserRepository.createUser({
+    await inMemoryUserRepository.createUser({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'mysecretpassword',
@@ -39,8 +22,46 @@ describe('Create User', () => {
       updated_at: new Date(),
     })
 
+    const mockUserUpdate = {
+      id: randomUUID(),
+      name: 'John Doe Updated',
+      email: 'johndoe@example.com',
+      password: 'mysecretpassword',
+      created_at: new Date(),
+      updated_at: new Date(),
+    }
+
+    const { user } = await userService.updateUser(mockUserUpdate)
+
+    expect(user).toEqual(
+      expect.objectContaining({
+        name: 'John Doe Updated',
+        email: 'johndoe@example.com',
+      }),
+    )
+  })
+
+  it('shouldnt create a new user because this use has exist', async () => {
+    await inMemoryUserRepository.createUser({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: 'mysecretpassword',
+      id: randomUUID(),
+      created_at: new Date(),
+      updated_at: new Date(),
+    })
+
+    const mockUserUpdate = {
+      id: randomUUID(),
+      name: 'John Doe Updated',
+      email: 'johndoeFailed@example.com',
+      password: 'mysecretpassword',
+      created_at: new Date(),
+      updated_at: new Date(),
+    }
+
     await expect(() =>
-      userService.createUser(userExist),
+      userService.updateUser(mockUserUpdate),
     ).rejects.toBeInstanceOf(Error)
   })
 })

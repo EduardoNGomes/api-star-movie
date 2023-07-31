@@ -3,6 +3,7 @@ import { UserProps, UserRepository } from '../user-repository'
 
 export class InMemoryUserRepository implements UserRepository {
   item: UserProps[] = []
+
   async createUser(data: UserProps) {
     const dataToCreate: UserProps = {
       id: randomUUID(),
@@ -27,6 +28,16 @@ export class InMemoryUserRepository implements UserRepository {
 
   async findByUserId(id: string) {
     const user = this.item.find((user) => user.id === id)
+
+    if (!user) {
+      return null
+    }
+
+    return user
+  }
+
+  async findByUserEmail(email: string) {
+    const user = this.item.find((user) => user.email === email)
 
     if (!user) {
       return null

@@ -17,4 +17,6 @@ export interface UserRepository {
   updateUser(data: UserProps): Promise<UserProps>
 
   findByUserId(id: string): Promise<UserProps | null>
+
+  findByUserEmail(email: string): Promise<UserProps | null>
 }
