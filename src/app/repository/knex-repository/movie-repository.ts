@@ -8,6 +8,7 @@ export class KnexMovieRepository implements MovieRepository {
       id: randomUUID(),
       ...movieData,
     }
+
     const dataResp = await knex('movies')
       .insert(movieToCreate)
       .returning('*')
@@ -25,10 +26,10 @@ export class KnexMovieRepository implements MovieRepository {
     return dataResp
   }
 
-  async updateMovie(movieData: MovieProps) {
+  async updateMovie(id: string, rating: number, comment_count: number) {
     const dataResp = await knex('movies')
-      .update(movieData)
-      .where({ id: movieData.id })
+      .update({ rating, comment_count })
+      .where({ id })
       .returning('*')
       .first()
     return dataResp
@@ -36,5 +37,6 @@ export class KnexMovieRepository implements MovieRepository {
 
   async deleteMovie(id: string) {
     await knex('movies').where({ id }).delete()
+    return 'deleted'
   }
 }

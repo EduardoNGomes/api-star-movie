@@ -1,6 +1,7 @@
 import { UserProps, UserRepository } from '@/app/repository/user-repository'
+import { AppError } from '@/app/utils/App-error'
 
-import { hash } from 'bcryptjs'
+import { compare, hash } from 'bcryptjs'
 
 export class UserService {
   constructor(private userRepository: UserRepository) {}
@@ -9,7 +10,7 @@ export class UserService {
     const userExists = await this.userRepository.findByUserEmail(data.email)
 
     if (userExists) {
-      throw new Error(`User already exists`)
+      throw new AppError(`User already exists`, 409)
     }
 
     const dataToCreated = {
@@ -26,7 +27,7 @@ export class UserService {
     const userExists = await this.userRepository.findByUserEmail(data.email)
 
     if (!userExists) {
-      throw new Error(`User data invalid`)
+      throw new AppError(`User data invalid`, 409)
     }
     const user = await this.userRepository.updateUser(data)
 
@@ -37,7 +38,23 @@ export class UserService {
     const user = await this.userRepository.findByUserId(id)
 
     if (!user) {
-      throw new Error('User inexists')
+      throw new AppError('User inexists', 409)
+    }
+
+    return { user }
+  }
+
+  async authenticate(email: string, password: string) {
+    const user = await this.userRepository.findByUserEmail(email)
+
+    if (!user) {
+      throw new AppError(`User data invalid`, 409)
+    }
+
+    const validPassword = await compare(password, user.password)
+
+    if (!validPassword) {
+      throw new AppError(`User data invalid`, 409)
     }
 
     return { user }

@@ -2,12 +2,32 @@ import {
   CommentProps,
   CommentRepository,
 } from '@/app/repository/comment-repository'
+import { MovieRepository } from '@/app/repository/movie-repository'
 
 export class CommentService {
-  constructor(private commentRepository: CommentRepository) {}
+  constructor(
+    private commentRepository: CommentRepository,
+    private movieRepository: MovieRepository,
+  ) {}
 
   async createComment(data: CommentProps) {
     const comment = await this.commentRepository.create(data)
+
+    const movie = await this.movieRepository.findMovieById(data.movie_id)
+
+    const newMovieRating = movie?.rating
+      ? movie?.rating + data.movie_rating
+      : data.movie_rating
+
+    const newMovieCommentCount = movie?.comment_count
+      ? movie.comment_count + 1
+      : 1
+
+    await this.movieRepository.updateMovie(
+      data.movie_id,
+      newMovieRating,
+      newMovieCommentCount,
+    )
 
     return { comment }
   }

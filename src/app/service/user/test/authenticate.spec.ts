@@ -7,20 +7,24 @@ import { AppError } from '@/app/utils/App-error'
 let inMemoryUserRepository: InMemoryUserRepository
 let userService: UserService
 
-describe('Create User', () => {
+describe('Authenticate User', () => {
   beforeEach(async () => {
     inMemoryUserRepository = new InMemoryUserRepository()
     userService = new UserService(inMemoryUserRepository)
-  })
 
-  it('should create a new user', async () => {
-    const mockUser = {
+    await userService.createUser({
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'mysecretpassword',
-    }
+    })
+  })
 
-    const { user } = await userService.createUser(mockUser)
+  it('should authenticate user', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const { user } = await userService.authenticate(
+      'johndoe@example.com',
+      'mysecretpassword',
+    )
 
     expect(user).toEqual(
       expect.objectContaining({
@@ -30,18 +34,15 @@ describe('Create User', () => {
     )
   })
 
-  it('shouldnt create a new user because this use has exist', async () => {
-    const userExist = await inMemoryUserRepository.createUser({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: 'mysecretpassword',
-      id: randomUUID(),
-      created_at: new Date(),
-      updated_at: new Date(),
-    })
-
+  it('shouldnt authenticate user with invalid email', async () => {
     await expect(() =>
-      userService.createUser(userExist),
+      userService.authenticate(randomUUID(), '12345'),
+    ).rejects.toBeInstanceOf(AppError)
+  })
+
+  it('shouldnt authenticate user with invalid paswword', async () => {
+    await expect(() =>
+      userService.authenticate('johndoe@example.com', '12345'),
     ).rejects.toBeInstanceOf(AppError)
   })
 })

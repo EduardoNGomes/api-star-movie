@@ -2,6 +2,7 @@ import { describe, beforeEach, it, expect } from 'vitest'
 import { UserService } from '../user-service'
 import { InMemoryUserRepository } from '@/app/repository/in-memory-repository/in-memory-user-repository'
 import { randomUUID } from 'crypto'
+import { AppError } from '@/app/utils/App-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let userService: UserService
@@ -62,6 +63,6 @@ describe('Update User', () => {
 
     await expect(() =>
       userService.updateUser(mockUserUpdate),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(AppError)
   })
 })

@@ -15,7 +15,10 @@ describe('Create Comment', () => {
     MockUserRepository = new InMemoryUserRepository()
 
     inMemoryCommentRepository = new InMemoryCommentRepository()
-    commentService = new CommentService(inMemoryCommentRepository)
+    commentService = new CommentService(
+      inMemoryCommentRepository,
+      MockMovieRepository,
+    )
 
     MockUserRepository.createUser({
       name: 'John Doe',
@@ -40,15 +43,15 @@ describe('Create Comment', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       user_id: MockUserRepository.item[0].id!,
       description: 'Ótimo filme! Recomendo a todos!',
-      movie_rating: 5,
+      movie_rating: 10,
     }
 
     const { comment } = await commentService.createComment(commentToCreate)
-
+    console.log(MockMovieRepository.items)
     expect(comment).toEqual(
       expect.objectContaining({
         description: 'Ótimo filme! Recomendo a todos!',
-        movie_rating: 5,
+        movie_rating: 10,
       }),
     )
   })

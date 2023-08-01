@@ -28,14 +28,14 @@ export class InMemoryMovieRepository implements MovieRepository {
     return movie
   }
 
-  async updateMovie(id: string, rating: number) {
+  async updateMovie(id: string, rating: number, comment_count: number) {
     const index = this.items.findIndex((movie) => movie.id === id)
 
     if (index === -1) {
       return null
     }
     const updatedMovies = this.items.map((movie) =>
-      movie.id === id ? { ...movie, rating } : movie,
+      movie.id === id ? { ...movie, rating, comment_count } : movie,
     )
 
     this.items = updatedMovies

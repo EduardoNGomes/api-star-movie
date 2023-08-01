@@ -3,6 +3,7 @@ import { UserService } from '../user-service'
 import { InMemoryUserRepository } from '@/app/repository/in-memory-repository/in-memory-user-repository'
 import { randomUUID } from 'crypto'
 import { UserProps } from '@/app/repository/user-repository'
+import { AppError } from '@/app/utils/App-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let userService: UserService
@@ -36,6 +37,6 @@ describe('Select User', () => {
   it('shouldnt select user with invalid email', async () => {
     await expect(() =>
       userService.selectUser(randomUUID()),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(AppError)
   })
 })

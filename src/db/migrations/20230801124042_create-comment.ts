@@ -7,7 +7,6 @@ export async function up(knex: Knex): Promise<void> {
     table.string('user_id').references('id').inTable('users')
     table.integer('rating_movie').notNullable()
     table.string('description').notNullable()
-
     table.timestamp('created_at').defaultTo(knex.fn.now())
     table.timestamp('updated_at').defaultTo(knex.fn.now())
   })

@@ -16,7 +16,10 @@ describe('Create Comment', () => {
     MockUserRepository = new InMemoryUserRepository()
 
     inMemoryCommentRepository = new InMemoryCommentRepository()
-    commentService = new CommentService(inMemoryCommentRepository)
+    commentService = new CommentService(
+      inMemoryCommentRepository,
+      MockMovieRepository,
+    )
 
     MockUserRepository.createUser({
       name: 'John Doe',

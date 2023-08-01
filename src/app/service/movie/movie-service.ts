@@ -28,12 +28,6 @@ export class MovieService {
     return { movie }
   }
 
-  updateMovie = async (id: string, rating: number) => {
-    // FIXME Refatorar quando tiver comentarios
-    const movie = await this.movieRepository.updateMovie(id, rating)
-    return { movie }
-  }
-
   deleteMovie = async (id: string) => {
     const message = await this.movieRepository.deleteMovie(id)
     return { message }
