@@ -3,8 +3,8 @@ export interface CommentProps {
   movie_id: string
   user_id: string
   description: string
-  created_at: Date
-  updated_at: Date
+  created_at?: Date
+  updated_at?: Date
   movie_rating: number
 }
 

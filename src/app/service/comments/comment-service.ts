@@ -6,21 +6,21 @@ import {
 export class CommentService {
   constructor(private commentRepository: CommentRepository) {}
 
-  async createComment(data: CommentProps): Promise<CommentProps> {
+  async createComment(data: CommentProps) {
     const comment = await this.commentRepository.create(data)
 
-    return comment
+    return { comment }
   }
 
   async selectAll(movie_id: string) {
     const comments = await this.commentRepository.findByMovieId(movie_id)
 
-    return comments
+    return { comments }
   }
 
   async delete(id: string) {
     const msg = await this.commentRepository.delete(id)
 
-    return msg
+    return { msg }
   }
 }
