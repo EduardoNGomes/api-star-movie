@@ -1,5 +1,6 @@
 import { UserRepository } from '@/app/repository/user-repository'
 import { MovieProps, MovieRepository } from '../../repository/movie-repository'
+import { AppError } from '@/app/utils/App-error'
 
 export class MovieService {
   constructor(
@@ -11,7 +12,7 @@ export class MovieService {
     const userExists = await this.userRepository.findByUserId(data.user_id)
 
     if (!userExists) {
-      throw Error('User invalid')
+      throw new AppError('User invalid', 409)
     }
 
     const movie = await this.movieRepository.createMovie(data)
@@ -25,6 +26,10 @@ export class MovieService {
 
   findMovieById = async (id: string) => {
     const movie = await this.movieRepository.findMovieById(id)
+
+    if (!movie) {
+      throw new AppError('User invalid', 409)
+    }
     return { movie }
   }
 

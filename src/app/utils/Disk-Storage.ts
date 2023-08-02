@@ -3,7 +3,7 @@ import path from 'path'
 import { TMP_FOLDER } from '../configs/multer'
 
 export class DiskStorage {
-  async deleteFile(file: any) {
+  async deleteFile(file: string) {
     const filePath = path.resolve(TMP_FOLDER, file)
     try {
       await fs.promises.stat(filePath)

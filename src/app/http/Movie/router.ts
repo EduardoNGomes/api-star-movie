@@ -1,8 +1,19 @@
 import { Router } from 'express'
 import { createMovie } from './Movie.controller'
+import { verifyUserAuthenticated } from '@/app/middlewares/verify-user-is-authenticated'
+import multer from 'multer'
+
+import { MULTER } from '@/app/configs/multer'
 
 const movieRouter = Router()
+const upload = multer(MULTER)
 
-movieRouter.get('/', createMovie)
+movieRouter.post(
+  '/',
+  verifyUserAuthenticated,
+  upload.single('image'),
+  createMovie,
+)
+// movieRouter.get('/', createMovie)
 
 export { movieRouter }

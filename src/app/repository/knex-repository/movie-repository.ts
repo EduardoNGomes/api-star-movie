@@ -1,19 +1,22 @@
 import { knex } from '@/db/knexfile'
 import { MovieProps, MovieRepository } from '../movie-repository'
 import { randomUUID } from 'crypto'
+import { AppError } from '@/app/utils/App-error'
 
 export class KnexMovieRepository implements MovieRepository {
   async createMovie(movieData: MovieProps) {
-    const movieToCreate = {
-      id: randomUUID(),
-      ...movieData,
-    }
+    try {
+      const movieToCreate = {
+        id: randomUUID(),
+        ...movieData,
+      }
 
-    const dataResp = await knex('movies')
-      .insert(movieToCreate)
-      .returning('*')
-      .first()
-    return dataResp
+      const dataResp = await knex('movies').insert(movieToCreate).returning('*')
+      return dataResp[0]
+    } catch (error) {
+      console.log(error)
+      throw new AppError('database error: ', 409)
+    }
   }
 
   async readAllMovie() {

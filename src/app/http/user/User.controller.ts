@@ -108,26 +108,26 @@ const updateUser = async (req: Request, res: Response) => {
     bodySchema.parse(req.body)
   const image = req.file
 
-  try {
-    let dataToUpdate
-    if (image) {
-      dataToUpdate = {
-        name,
-        instagram_url,
-        threads_url,
-        tiktok_url,
-        twitter_url,
-        image: image.filename,
-      }
-    } else {
-      dataToUpdate = {
-        name,
-        instagram_url,
-        threads_url,
-        tiktok_url,
-        twitter_url,
-      }
+  let dataToUpdate
+  if (image) {
+    dataToUpdate = {
+      name,
+      instagram_url,
+      threads_url,
+      tiktok_url,
+      twitter_url,
+      image: image.filename,
     }
+  } else {
+    dataToUpdate = {
+      name,
+      instagram_url,
+      threads_url,
+      tiktok_url,
+      twitter_url,
+    }
+  }
+  try {
     const { user } = await userService.updateUser(req.user.sub, dataToUpdate)
     return res.status(200).json(user)
   } catch (error) {

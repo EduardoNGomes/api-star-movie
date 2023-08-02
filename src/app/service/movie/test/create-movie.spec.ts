@@ -4,6 +4,7 @@ import { InMemoryUserRepository } from '@/app/repository/in-memory-repository/in
 import { InMemoryMovieRepository } from '@/app/repository/in-memory-repository/in-memory-movie-repository'
 import { randomUUID } from 'crypto'
 import { UserProps } from '@/app/repository/user-repository'
+import { AppError } from '@/app/utils/App-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let inMemoryMovieRepository: InMemoryMovieRepository
@@ -62,6 +63,6 @@ describe('Create Movie', () => {
 
     await expect(
       async () => await movieService.createMovie(movieToCreate),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(AppError)
   })
 })
