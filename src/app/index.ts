@@ -3,13 +3,14 @@ import 'express-async-errors'
 import { env } from '../env/index.js'
 import { routes } from './http/routes/index.js'
 import { errorHandler } from './configs/erros.js'
+import { UPLOADS_FOLDER } from './configs/multer.js'
 
 const app = express()
 
 app.use(express.json())
 
 app.use(routes)
-
+app.use('/files', express.static(UPLOADS_FOLDER))
 app.use(errorHandler)
 
 app.get('/v1/film-fans/check-live', (req, res) => {

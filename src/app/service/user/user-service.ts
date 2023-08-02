@@ -4,6 +4,7 @@ import {
   UserUpdateProps,
 } from '@/app/repository/user-repository'
 import { AppError } from '@/app/utils/App-error'
+import { DiskStorage } from '@/app/utils/Disk-Storage'
 
 import { compare, hash } from 'bcryptjs'
 
@@ -33,6 +34,12 @@ export class UserService {
     if (!userExists) {
       throw new AppError(`User data invalid`, 409)
     }
+    const diskStorage = new DiskStorage()
+
+    if (userExists.image && data.image) {
+      await diskStorage.deleteFile(userExists.image)
+    }
+
     const user = await this.userRepository.updateUser(id, data)
 
     return { user }

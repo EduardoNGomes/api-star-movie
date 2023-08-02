@@ -98,16 +98,36 @@ const updateUser = async (req: Request, res: Response) => {
 
   const bodySchema = z.object({
     name: z.string(),
-    image: z.string().optional(),
     threads_url: z.string().optional(),
     twitter_url: z.string().optional(),
     tiktok_url: z.string().optional(),
     instagram_url: z.string().optional(),
   })
 
-  const dataToUpdate = bodySchema.parse(req.body)
+  const { name, instagram_url, threads_url, tiktok_url, twitter_url } =
+    bodySchema.parse(req.body)
+  const image = req.file
 
   try {
+    let dataToUpdate
+    if (image) {
+      dataToUpdate = {
+        name,
+        instagram_url,
+        threads_url,
+        tiktok_url,
+        twitter_url,
+        image: image.filename,
+      }
+    } else {
+      dataToUpdate = {
+        name,
+        instagram_url,
+        threads_url,
+        tiktok_url,
+        twitter_url,
+      }
+    }
     const { user } = await userService.updateUser(req.user.sub, dataToUpdate)
     return res.status(200).json(user)
   } catch (error) {
