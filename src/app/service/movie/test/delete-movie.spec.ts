@@ -44,8 +44,17 @@ describe('select Movie', () => {
   })
 
   it('should select all movies', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const { message } = await movieService.deleteMovie(movieMock.id!)
+    if (typeof movieMock.id !== 'string') {
+      return
+    }
+    if (typeof userMock.id !== 'string') {
+      return
+    }
+
+    const { message } = await movieService.deleteMovie(
+      movieMock.id,
+      userMock.id,
+    )
     expect(message).toEqual('deleted')
   })
 })

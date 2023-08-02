@@ -33,8 +33,8 @@ export class MovieService {
     return { movie }
   }
 
-  deleteMovie = async (id: string) => {
-    const message = await this.movieRepository.deleteMovie(id)
+  deleteMovie = async (id: string, user_id: string) => {
+    const message = await this.movieRepository.deleteMovie(id, user_id)
     return { message }
   }
 }

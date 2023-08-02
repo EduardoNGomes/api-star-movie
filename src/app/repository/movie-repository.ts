@@ -24,5 +24,5 @@ export interface MovieRepository {
     comment_count: number,
   ): Promise<MovieProps | null>
 
-  deleteMovie(id: string): Promise<string>
+  deleteMovie(id: string, user_id: string): Promise<string>
 }

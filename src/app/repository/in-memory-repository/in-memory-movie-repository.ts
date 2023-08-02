@@ -42,8 +42,10 @@ export class InMemoryMovieRepository implements MovieRepository {
     return this.items[index]
   }
 
-  async deleteMovie(id: string) {
-    const newMovieList = this.items.filter((movie) => movie.id !== id)
+  async deleteMovie(id: string, user_id: string) {
+    const newMovieList = this.items.filter(
+      (movie) => movie.id !== id && movie.user_id === user_id,
+    )
 
     this.items = newMovieList
 

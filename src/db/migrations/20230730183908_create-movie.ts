@@ -3,7 +3,7 @@ import { Knex } from 'knex'
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable('movies', (table) => {
     table.string('id', 40).primary()
-    table.text('user_id').references('id').inTable('users')
+    table.text('user_id').references('id').inTable('users').onDelete('CASCADE')
     table.string('title', 40).unique()
     table.string('age', 5)
     table.text('sinopse')

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createMovie } from './Movie.controller'
+import { createMovie, deleteMovie } from './Movie.controller'
 import { verifyUserAuthenticated } from '@/app/middlewares/verify-user-is-authenticated'
 import multer from 'multer'
 
@@ -14,6 +14,6 @@ movieRouter.post(
   upload.single('image'),
   createMovie,
 )
-// movieRouter.get('/', createMovie)
+movieRouter.delete('/:id', verifyUserAuthenticated, deleteMovie)
 
 export { movieRouter }

@@ -52,6 +52,27 @@ const createMovie = async (req: Request, res: Response) => {
 
 // const findMovieById = async (req: Request, res: Response) => {}
 
-// const deleteMovie = async (req: Request, res: Response) => {}
+const deleteMovie = async (req: Request, res: Response) => {
+  if (!req.user?.sub) {
+    return res.status(401).json({ message: 'JWT invalid' })
+  }
 
-export { createMovie }
+  const paramsSchema = z.object({
+    id: z.string().uuid(),
+  })
+
+  const { id } = paramsSchema.parse(req.params)
+
+  try {
+    const { message } = await movieService.deleteMovie(id, req.user.sub)
+    return res.status(200).json({ message })
+  } catch (error) {
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(error.message)
+    } else {
+      return res.status(500).json({ message: 'internal error' })
+    }
+  }
+}
+
+export { createMovie, deleteMovie }
