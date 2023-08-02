@@ -1,4 +1,4 @@
-import {config} from 'dotenv'
+import { config } from 'dotenv'
 import { z } from 'zod'
 
 if (process.env.NODE_ENV === 'test') {
@@ -10,7 +10,8 @@ if (process.env.NODE_ENV === 'test') {
 const envSchema = z.object({
   PORT: z.coerce.number().default(8080),
   DATABASE_URL: z.string(),
-  DATABASE_CLIENT: z.enum(['pg', 'sqlite']).default('pg')
+  DATABASE_CLIENT: z.enum(['pg', 'sqlite']).default('pg'),
+  SECRET_KEY: z.string(),
 })
 
 export const env = envSchema.parse(process.env)

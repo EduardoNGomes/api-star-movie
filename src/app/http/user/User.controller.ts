@@ -3,6 +3,8 @@ import { UserService } from '@/app/service/user/user-service'
 import { AppError } from '@/app/utils/App-error'
 import { Request, Response } from 'express'
 import { z } from 'zod'
+import { jwtConfigAuth } from '@/app/configs/auth'
+import { sign } from 'jsonwebtoken'
 
 const userRepository = new KnexUserRepository()
 
@@ -12,7 +14,7 @@ const createUser = async (req: Request, res: Response) => {
   const bodySchema = z.object({
     name: z.string(),
     email: z.string(),
-    password: z.string(),
+    password: z.string().min(8),
   })
 
   const { email, name, password } = bodySchema.parse(req.body)
@@ -28,21 +30,47 @@ const createUser = async (req: Request, res: Response) => {
   }
 }
 
-// const selectUser = async (req: Request, res: Response) => {
-//   const bodySchema = z.object({
-//     id: z.string().uuid(),
-//   })
+const selectUser = async (req: Request, res: Response) => {
+  if (!req.user?.sub) {
+    return res.status(401).json({ message: 'JWT invalid' })
+  }
+  try {
+    const { user } = await userService.selectUser(req.user.sub)
+    return res.status(200).json(user)
+  } catch (error) {
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(error.message)
+    } else {
+      return res.status(500).json({ message: 'internal error' })
+    }
+  }
+}
 
-//   const { email, name, password } = bodySchema.parse(req.body)
-//   try {
-//     const { user } = await userService.createUser({ email, name, password })
-//     return res.status(201).json(user)
-//   } catch (error) {
-//     if (error instanceof AppError) {
-//       return res.status(error.statusCode).json(error.message)
-//     } else {
-//       return res.status(500).json({ message: 'internal error' })
-//     }
-//   }
-// }
-export { createUser }
+const authenticateUser = async (req: Request, res: Response) => {
+  const bodySchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(8),
+  })
+
+  const { email, password } = bodySchema.parse(req.body)
+
+  try {
+    const { user } = await userService.authenticate(email, password)
+
+    const { secret, expiresIn } = jwtConfigAuth
+
+    const token = sign({}, secret, {
+      subject: String(user.id),
+      expiresIn,
+    })
+    return res.status(200).cookie('toke', token).json({ token })
+  } catch (error) {
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(error.message)
+    } else {
+      return res.status(500).json({ message: 'internal error' })
+    }
+  }
+}
+
+export { createUser, selectUser, authenticateUser }
