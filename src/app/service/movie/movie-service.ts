@@ -28,7 +28,7 @@ export class MovieService {
     const movie = await this.movieRepository.findMovieById(id)
 
     if (!movie) {
-      throw new AppError('User invalid', 409)
+      throw new AppError('movie inexist', 409)
     }
     return { movie }
   }

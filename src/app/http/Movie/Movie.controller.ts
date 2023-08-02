@@ -4,11 +4,15 @@ import { KnexMovieRepository } from '@/app/repository/knex-repository/movie-repo
 import { KnexUserRepository } from '@/app/repository/knex-repository/user-repository'
 import { z } from 'zod'
 import { AppError } from '@/app/utils/App-error'
+import { KnexCommentsRepository } from '@/app/repository/knex-repository/comments-repository'
+import { CommentService } from '@/app/service/comments/comment-service'
 
 const movieRepository = new KnexMovieRepository()
+const commentRepository = new KnexCommentsRepository()
 const userRepository = new KnexUserRepository()
 
 const movieService = new MovieService(movieRepository, userRepository)
+const commentService = new CommentService(commentRepository, movieRepository)
 
 const createMovie = async (req: Request, res: Response) => {
   if (!req.user?.sub) {
@@ -48,9 +52,51 @@ const createMovie = async (req: Request, res: Response) => {
   }
 }
 
-// const readAllMovies = async (req: Request, res: Response) => {}
+const readAllMovies = async (req: Request, res: Response) => {
+  if (!req.user?.sub) {
+    return res.status(401).json({ message: 'JWT invalid' })
+  }
 
-// const findMovieById = async (req: Request, res: Response) => {}
+  try {
+    const { movies } = await movieService.readAllMovies()
+    return res.status(200).json({ movies })
+  } catch (error) {
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(error.message)
+    } else {
+      return res.status(500).json({ message: 'internal error' })
+    }
+  }
+}
+
+const findMovieById = async (req: Request, res: Response) => {
+  if (!req.user?.sub) {
+    return res.status(401).json({ message: 'JWT invalid' })
+  }
+
+  const paramSchema = z.object({
+    id: z.string().uuid(),
+  })
+
+  const { id } = paramSchema.parse(req.params)
+
+  try {
+    const { movie } = await movieService.findMovieById(id)
+
+    if (!movie.id) {
+      return res.status(500).json({ message: 'internal error' })
+    }
+    const { comments } = await commentService.selectAll(movie.id)
+
+    return res.status(201).json({ movie, comments })
+  } catch (error) {
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json(error.message)
+    } else {
+      return res.status(500).json({ message: 'internal error' })
+    }
+  }
+}
 
 const deleteMovie = async (req: Request, res: Response) => {
   if (!req.user?.sub) {
@@ -75,4 +121,4 @@ const deleteMovie = async (req: Request, res: Response) => {
   }
 }
 
-export { createMovie, deleteMovie }
+export { createMovie, deleteMovie, readAllMovies, findMovieById }
