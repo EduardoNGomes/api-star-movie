@@ -8,6 +8,7 @@ export const errorHandler = (
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   _next: NextFunction,
 ) => {
+  console.log(error)
   if (error instanceof ZodError) {
     return res
       .status(400)

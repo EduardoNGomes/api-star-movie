@@ -4,6 +4,7 @@ import {
   createUser,
   selectUser,
   selectUserByEmail,
+  updateUser,
 } from './User.controller'
 import { verifyUserAuthenticated } from '@/app/middlewares/verify-user-is-authenticated'
 
@@ -14,6 +15,7 @@ userRouter.post('/session', authenticateUser)
 
 // authenticate routes
 userRouter.get('/', verifyUserAuthenticated, selectUser)
+userRouter.put('/', verifyUserAuthenticated, updateUser)
 userRouter.post('/selectUser', verifyUserAuthenticated, selectUserByEmail)
 
 export { userRouter }
