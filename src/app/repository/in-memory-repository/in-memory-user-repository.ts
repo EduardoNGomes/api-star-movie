@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto'
-import { UserProps, UserRepository } from '../user-repository'
+import { UserProps, UserRepository, UserUpdateProps } from '../user-repository'
 
 export class InMemoryUserRepository implements UserRepository {
   item: UserProps[] = []
@@ -16,14 +16,15 @@ export class InMemoryUserRepository implements UserRepository {
     return dataToCreate
   }
 
-  async updateUser(data: UserProps) {
-    const updatedUser = this.item.filter((user) =>
-      user.id === data.id ? data : user,
+  async updateUser(id: string, data: UserUpdateProps) {
+    const updateIndex = this.item.findIndex((user) => user.id === id)
+    const updatedUser = this.item.map((user) =>
+      user.id === id ? { ...user, ...data, updated_at: new Date() } : user,
     )
 
     this.item = updatedUser
 
-    return data
+    return this.item[updateIndex]
   }
 
   async findByUserId(id: string) {

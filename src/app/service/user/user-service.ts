@@ -1,4 +1,8 @@
-import { UserProps, UserRepository } from '@/app/repository/user-repository'
+import {
+  UserProps,
+  UserRepository,
+  UserUpdateProps,
+} from '@/app/repository/user-repository'
 import { AppError } from '@/app/utils/App-error'
 
 import { compare, hash } from 'bcryptjs'
@@ -23,13 +27,13 @@ export class UserService {
     return { user }
   }
 
-  async updateUser(data: UserProps) {
-    const userExists = await this.userRepository.findByUserEmail(data.email)
+  async updateUser(id: string, data: UserUpdateProps) {
+    const userExists = await this.userRepository.findByUserId(id)
 
     if (!userExists) {
       throw new AppError(`User data invalid`, 409)
     }
-    const user = await this.userRepository.updateUser(data)
+    const user = await this.userRepository.updateUser(id, data)
 
     return { user }
   }
@@ -42,6 +46,25 @@ export class UserService {
     }
 
     return { user }
+  }
+
+  async selectUserByEmail(email: string) {
+    const user = await this.userRepository.findByUserEmail(email)
+
+    if (!user) {
+      throw new AppError(`User data invalid`, 409)
+    }
+
+    const userResponse = {
+      name: user.name,
+      image: user.image,
+      threads_url: user.threads_url,
+      twitter_url: user.twitter_url,
+      tiktok_url: user.tiktok_url,
+      instagram_url: user.instagram_url,
+    }
+
+    return { userResponse }
   }
 
   async authenticate(email: string, password: string) {

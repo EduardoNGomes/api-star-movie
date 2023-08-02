@@ -12,10 +12,19 @@ export interface UserProps {
   instagram_url?: string
 }
 
+export interface UserUpdateProps {
+  name: string
+  image?: string
+  threads_url?: string
+  twitter_url?: string
+  tiktok_url?: string
+  instagram_url?: string
+}
+
 export interface UserRepository {
   createUser(data: UserProps): Promise<UserProps>
 
-  updateUser(data: UserProps): Promise<UserProps>
+  updateUser(id: string, data: UserUpdateProps): Promise<UserProps>
 
   findByUserId(id: string): Promise<UserProps | null>
 

@@ -1,5 +1,5 @@
 import { knex } from '@/db/knexfile'
-import { UserProps, UserRepository } from '../user-repository'
+import { UserProps, UserRepository, UserUpdateProps } from '../user-repository'
 import { randomUUID } from 'crypto'
 
 export class KnexUserRepository implements UserRepository {
@@ -12,8 +12,12 @@ export class KnexUserRepository implements UserRepository {
     return user[0]
   }
 
-  async updateUser(data: UserProps) {
-    const user = await knex('users').update(data).returning('*').first()
+  async updateUser(id: string, data: UserUpdateProps) {
+    const user = await knex('users')
+      .where({ id })
+      .update(data)
+      .returning('*')
+      .first()
 
     return user
   }

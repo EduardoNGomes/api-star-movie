@@ -47,7 +47,6 @@ describe('Create Comment', () => {
     }
 
     const { comment } = await commentService.createComment(commentToCreate)
-    console.log(MockMovieRepository.items)
     expect(comment).toEqual(
       expect.objectContaining({
         description: 'Ótimo filme! Recomendo a todos!',
