@@ -31,9 +31,9 @@ export class KnexMovieRepository implements MovieRepository {
     return dataResp
   }
 
-  async deleteMovie(id: string) {
+  async deleteMovie(id: string, user_id: string) {
     try {
-      await knex('movies').where({ id }).delete()
+      await knex('movies').where({ id }).andWhere({ user_id }).delete()
       return 'deleted'
     } catch (error) {
       console.log(error)

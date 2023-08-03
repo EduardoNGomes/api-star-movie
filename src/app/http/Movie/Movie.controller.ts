@@ -90,9 +90,11 @@ const findMovieById = async (req: Request, res: Response) => {
 
     let sumRating = 0
 
-    comments.forEach((comment) => {
-      sumRating += comment.rating_movie
-    })
+    if (comments.length > 0) {
+      comments.forEach((comment) => {
+        sumRating += comment.rating_movie
+      })
+    }
     const averageRating = comments.length > 0 ? sumRating / comments.length : 0
 
     return res.status(201).json({ ...movie, averageRating, comments })

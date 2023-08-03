@@ -54,7 +54,7 @@ const deleteComment = async (req: Request, res: Response) => {
   try {
     const { msg } = await commentsService.delete(id)
 
-    return res.status(201).json(msg)
+    return res.status(200).json(msg)
   } catch (error) {
     if (error instanceof AppError) {
       return res.status(error.statusCode).json(error.message)
