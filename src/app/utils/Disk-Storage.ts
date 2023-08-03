@@ -1,10 +1,10 @@
 import fs from 'fs'
 import path from 'path'
-import { TMP_FOLDER } from '../configs/multer'
+import { UPLOADS_FOLDER } from '../configs/multer'
 
 export class DiskStorage {
   async deleteFile(file: string) {
-    const filePath = path.resolve(TMP_FOLDER, file)
+    const filePath = path.resolve(UPLOADS_FOLDER, file)
     try {
       await fs.promises.stat(filePath)
     } catch {

@@ -4,7 +4,7 @@
   "description": "A API Rocketseat made by Explorer program",
   "main": "index.ts",
   "scripts": {
-    "start": "node src/app/index.ts",
+    "start": "node build/app/index.js",
     "dev": "tsx --watch src/app/index.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
@@ -12,7 +12,7 @@
     "migrate-deploy": "npx knex --knexfile knexfile.ts migrate:latest ",
     "lint": "eslint src --ext .ts --fix",
     "build": "tsup src --out-dir build",
-    "ci": "npm run migrate && npm start"
+    "deploy": "npm i && npm run migrate-deploy && npm start"
   },
   "author": "Eduardo Nascimento Gomes",
   "license": "ISC",
