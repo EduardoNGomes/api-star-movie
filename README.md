@@ -89,6 +89,7 @@
 
   <p>Método: <strong>POST</strong> <p> 
   <p>rota: <strong>/user/session</strong> </p>
+  
   #### <p>Exemplo para requisição:</p>
 
 ```
