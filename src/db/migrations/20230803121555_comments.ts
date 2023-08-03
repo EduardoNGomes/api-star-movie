@@ -8,7 +8,11 @@ export async function up(knex: Knex): Promise<void> {
       .references('id')
       .inTable('movies')
       .onDelete('CASCADE')
-    table.string('user_id').references('id').inTable('users')
+    table
+      .string('user_id')
+      .references('id')
+      .inTable('users')
+      .onDelete('CASCADE')
     table.integer('rating_movie').notNullable()
     table.string('description').notNullable()
     table.timestamp('created_at').defaultTo(knex.fn.now())

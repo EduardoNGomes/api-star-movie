@@ -32,6 +32,7 @@ export class KnexCommentsRepository implements CommentRepository {
         .select(
           'comments.id',
           'comments.description',
+          'comments.rating_movie',
           'users.email',
           'users.image',
         )

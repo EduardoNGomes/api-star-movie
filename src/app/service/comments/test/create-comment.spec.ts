@@ -15,10 +15,7 @@ describe('Create Comment', () => {
     MockUserRepository = new InMemoryUserRepository()
 
     inMemoryCommentRepository = new InMemoryCommentRepository()
-    commentService = new CommentService(
-      inMemoryCommentRepository,
-      MockMovieRepository,
-    )
+    commentService = new CommentService(inMemoryCommentRepository)
 
     MockUserRepository.createUser({
       name: 'John Doe',
@@ -47,11 +44,15 @@ describe('Create Comment', () => {
     }
 
     const { comment } = await commentService.createComment(commentToCreate)
-
     expect(comment).toEqual(
       expect.objectContaining({
+        movie_id: expect.any(String),
+        user_id: expect.any(String),
         description: 'Ótimo filme! Recomendo a todos!',
-        movie_rating: 10,
+        rating_movie: 10,
+        id: expect.any(String),
+        updated_at: expect.any(Date),
+        created_at: expect.any(Date),
       }),
     )
   })

@@ -12,7 +12,7 @@ const commentRepository = new KnexCommentsRepository()
 const userRepository = new KnexUserRepository()
 
 const movieService = new MovieService(movieRepository, userRepository)
-const commentService = new CommentService(commentRepository, movieRepository)
+const commentService = new CommentService(commentRepository)
 
 const createMovie = async (req: Request, res: Response) => {
   if (!req.user?.sub) {
@@ -88,7 +88,14 @@ const findMovieById = async (req: Request, res: Response) => {
     }
     const { comments } = await commentService.selectAll(movie.id)
 
-    return res.status(201).json({ movie, comments })
+    let sumRating = 0
+
+    comments.forEach((comment) => {
+      sumRating += comment.rating_movie
+    })
+    const averageRating = comments.length > 0 ? sumRating / comments.length : 0
+
+    return res.status(201).json({ ...movie, averageRating, comments })
   } catch (error) {
     if (error instanceof AppError) {
       return res.status(error.statusCode).json(error.message)

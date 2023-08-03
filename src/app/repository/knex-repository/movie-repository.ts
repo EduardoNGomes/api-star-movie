@@ -31,19 +31,6 @@ export class KnexMovieRepository implements MovieRepository {
     return dataResp
   }
 
-  async updateMovie(id: string, rating: number, comment_count: number) {
-    try {
-      const [dataResp] = await knex('movies')
-        .update({ rating, comment_count })
-        .where({ id })
-        .returning('*')
-      return dataResp
-    } catch (error) {
-      console.log(error)
-      throw new AppError('database error: ', 409)
-    }
-  }
-
   async deleteMovie(id: string) {
     try {
       await knex('movies').where({ id }).delete()

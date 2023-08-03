@@ -18,11 +18,5 @@ export interface MovieRepository {
 
   findMovieById(id: string): Promise<MovieProps | null>
 
-  updateMovie(
-    id: string,
-    rating: number,
-    comment_count: number,
-  ): Promise<MovieProps | null>
-
   deleteMovie(id: string, user_id: string): Promise<string>
 }

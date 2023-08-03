@@ -37,20 +37,4 @@ export class MovieService {
     const message = await this.movieRepository.deleteMovie(id, user_id)
     return { message }
   }
-
-  updateMovie = async (id: string, rating: number, comment_count: number) => {
-    const movieExist = await this.movieRepository.findMovieById(id)
-
-    if (!movieExist) {
-      throw new AppError('movie inexist', 409)
-    }
-
-    const movie = await this.movieRepository.updateMovie(
-      id,
-      rating,
-      comment_count + 1,
-    )
-
-    return { movie }
-  }
 }
