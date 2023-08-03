@@ -43,10 +43,11 @@ describe('Create Comment', () => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       user_id: MockUserRepository.item[0].id!,
       description: 'Ótimo filme! Recomendo a todos!',
-      movie_rating: 10,
+      rating_movie: 10,
     }
 
     const { comment } = await commentService.createComment(commentToCreate)
+
     expect(comment).toEqual(
       expect.objectContaining({
         description: 'Ótimo filme! Recomendo a todos!',

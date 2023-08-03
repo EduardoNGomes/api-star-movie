@@ -13,9 +13,8 @@ export class KnexCommentsRepository implements CommentRepository {
       const comments = await knex('comments')
         .insert(commentsToCreate)
         .returning('*')
-        .first()
 
-      return comments
+      return comments[0]
     } catch (error) {
       console.log(error)
       throw new AppError('database error: ', 409)

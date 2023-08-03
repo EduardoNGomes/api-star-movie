@@ -5,7 +5,7 @@ export interface CommentProps {
   description: string
   created_at?: Date
   updated_at?: Date
-  movie_rating: number
+  rating_movie: number
 }
 
 export interface CommentRepository {

@@ -16,8 +16,8 @@ export class CommentService {
     const movie = await this.movieRepository.findMovieById(data.movie_id)
 
     const newMovieRating = movie?.rating
-      ? movie?.rating + data.movie_rating
-      : data.movie_rating
+      ? movie?.rating + data.rating_movie
+      : data.rating_movie
 
     const newMovieCommentCount = movie?.comment_count
       ? movie.comment_count + 1

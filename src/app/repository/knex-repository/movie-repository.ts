@@ -11,8 +11,10 @@ export class KnexMovieRepository implements MovieRepository {
         ...movieData,
       }
 
-      const dataResp = await knex('movies').insert(movieToCreate).returning('*')
-      return dataResp[0]
+      const [dataResp] = await knex('movies')
+        .insert(movieToCreate)
+        .returning('*')
+      return dataResp
     } catch (error) {
       console.log(error)
       throw new AppError('database error: ', 409)
@@ -30,12 +32,16 @@ export class KnexMovieRepository implements MovieRepository {
   }
 
   async updateMovie(id: string, rating: number, comment_count: number) {
-    const dataResp = await knex('movies')
-      .update({ rating, comment_count })
-      .where({ id })
-      .returning('*')
-      .first()
-    return dataResp
+    try {
+      const [dataResp] = await knex('movies')
+        .update({ rating, comment_count })
+        .where({ id })
+        .returning('*')
+      return dataResp
+    } catch (error) {
+      console.log(error)
+      throw new AppError('database error: ', 409)
+    }
   }
 
   async deleteMovie(id: string) {
