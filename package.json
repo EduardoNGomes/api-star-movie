@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A API Rocketseat made by Explorer program",
   "main": "index.ts",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "node build/app/index.js",
     "dev": "tsx --watch src/app/index.ts",
