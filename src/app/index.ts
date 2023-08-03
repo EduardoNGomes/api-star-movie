@@ -4,10 +4,12 @@ import { env } from '../env/index.js'
 import { routes } from './http/routes/index.js'
 import { errorHandler } from './configs/erros.js'
 import { UPLOADS_FOLDER } from './configs/multer.js'
+import cors from 'cors'
 
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
 app.use(routes)
 app.use('/files', express.static(UPLOADS_FOLDER))
