@@ -15,7 +15,7 @@
     "migrate-deploy": "npx knex --knexfile knexfile.ts migrate:latest ",
     "lint": "eslint src --ext .ts --fix",
     "build": "tsup src --out-dir build",
-    "deploy": "npm i && npm run migrate-deploy && npm start"
+    "deploy": "npm i && npm run migrate-deploy && npm build"
   },
   "author": "Eduardo Nascimento Gomes",
   "license": "ISC",
