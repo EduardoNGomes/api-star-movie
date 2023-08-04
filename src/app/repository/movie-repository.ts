@@ -1,6 +1,7 @@
 export interface MovieProps {
   id?: string
   user_id: string
+  user_name?: string
   title: string
   age: number
   image: string

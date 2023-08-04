@@ -22,8 +22,25 @@ export class KnexMovieRepository implements MovieRepository {
   }
 
   async readAllMovie() {
-    const dataResp = await knex('movies')
-    return dataResp
+    try {
+      const dataResp = await knex('movies')
+        .select(
+          'movies.id',
+          'movies.user_id',
+          'movies.title',
+          'movies.age',
+          'movies.sinopse',
+          'movies.image',
+          'movies.created_at',
+          'movies.updated_at',
+          'users.name as user_name',
+        )
+        .innerJoin('users', 'users.id', 'movies.user_id')
+      return dataResp
+    } catch (error) {
+      console.log(error)
+      throw new AppError('database error: ', 409)
+    }
   }
 
   async findMovieById(id: string) {
