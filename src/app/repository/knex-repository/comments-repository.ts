@@ -21,8 +21,8 @@ export class KnexCommentsRepository implements CommentRepository {
     }
   }
 
-  async delete(id: string) {
-    await knex('comments').where({ id }).delete()
+  async delete(id: string, user_id: string) {
+    await knex('comments').where({ id }).andWhere({ user_id }).delete()
     return 'deleted'
   }
 

@@ -18,8 +18,8 @@ export class CommentService {
     return { comments }
   }
 
-  async delete(id: string) {
-    const msg = await this.commentRepository.delete(id)
+  async delete(id: string, user_id: string) {
+    const msg = await this.commentRepository.delete(id, user_id)
 
     return { msg }
   }

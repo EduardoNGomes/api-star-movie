@@ -16,9 +16,9 @@ export class InMemoryCommentRepository implements CommentRepository {
     return dataToCreate
   }
 
-  async delete(id: string) {
+  async delete(id: string, user_id: string) {
     const listWithoutComments = this.items.filter(
-      (comment) => comment.id !== id,
+      (comment) => comment.id !== id && comment.user_id === user_id,
     )
 
     this.items = listWithoutComments

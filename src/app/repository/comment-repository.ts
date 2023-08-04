@@ -11,7 +11,7 @@ export interface CommentProps {
 export interface CommentRepository {
   create(data: CommentProps): Promise<CommentProps>
 
-  delete(id: string): Promise<string>
+  delete(id: string, user_id: string): Promise<string>
 
   findByMovieId(id: string): Promise<CommentProps[] | []>
 }

@@ -52,7 +52,7 @@ const deleteComment = async (req: Request, res: Response) => {
   const { id } = paramsSchema.parse(req.params)
 
   try {
-    const { msg } = await commentsService.delete(id)
+    const { msg } = await commentsService.delete(id, req.user.sub)
 
     return res.status(200).json(msg)
   } catch (error) {
