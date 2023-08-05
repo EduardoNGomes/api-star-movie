@@ -35,6 +35,7 @@ export class KnexCommentsRepository implements CommentRepository {
           'comments.rating_movie',
           'users.email',
           'users.image',
+          'users.name',
         )
         .where({ movie_id: id })
         .innerJoin('users', 'comments.user_id', 'users.id')
