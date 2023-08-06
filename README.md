@@ -89,7 +89,7 @@
 
   <p>Método: <strong>POST</strong> <p> 
   <p>rota: <strong>/user/session</strong> </p>
-  
+
   #### <p>Exemplo para requisição:</p>
 
 ```
@@ -154,7 +154,7 @@
 - #### Selecionar imagem do usuário
 
   <p>Método: <strong>GET</strong> <p> 
-  <p>rota: <strong>/file/:image_name</strong> </p>
+  <p>rota: <strong>/files/:image_name</strong> </p>
 
 <br>
 
@@ -266,9 +266,9 @@
 
 ## Contribuidores
 
-| Nome                                                                    | Papel               |
-| ----------------------------------------------------------------------- | ------------------- |
-| [Eduardo N Gomes](https://www.linkedin.com/in/eduardo-n-gomes/)         | Back-End            |
-| [Gabriel Santos](https://www.linkedin.com/in/gabriel-santos-bb4a10188/) | Front-End \| Design |
-| [Biro³](https://www.linkedin.com/in/birobirobiro/)                      | Design              |
-| [Lara Azevedo](https://www.linkedin.com/in/larazevedoo/)                | Design              |
+| Nome                                                                    | Papel                 |
+| ----------------------------------------------------------------------- | --------------------- |
+| [Eduardo N Gomes](https://www.linkedin.com/in/eduardo-n-gomes/)         | Back-End \| Front-end |
+| [Gabriel Santos](https://www.linkedin.com/in/gabriel-santos-bb4a10188/) | Front-End \| Design   |
+| [Biro³](https://www.linkedin.com/in/birobirobiro/)                      | Design                |
+| [Lara Azevedo](https://www.linkedin.com/in/larazevedoo/)                | Design                |
