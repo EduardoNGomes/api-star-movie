@@ -5,6 +5,7 @@ import { Request, Response } from 'express'
 import { z } from 'zod'
 import { jwtConfigAuth } from '@/app/configs/auth'
 import { sign } from 'jsonwebtoken'
+import { createImageUrl } from '@/app/configs/cloudnary'
 
 const userRepository = new KnexUserRepository()
 
@@ -109,14 +110,24 @@ const updateUser = async (req: Request, res: Response) => {
   const image = req.file
 
   let dataToUpdate
+  let ulrImage
+
   if (image) {
+    try {
+      const response = await createImageUrl(image.path)
+      ulrImage = response?.url
+    } catch (error) {
+      console.log(error)
+      throw new AppError('Error save image', 500)
+    }
     dataToUpdate = {
       name,
       instagram_url,
       threads_url,
       tiktok_url,
       twitter_url,
-      image: image.filename,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      image: ulrImage!,
     }
   } else {
     dataToUpdate = {
