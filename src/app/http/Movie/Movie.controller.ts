@@ -7,6 +7,8 @@ import { AppError } from '@/app/utils/App-error'
 import { KnexCommentsRepository } from '@/app/repository/knex-repository/comments-repository'
 import { CommentService } from '@/app/service/comments/comment-service'
 
+import { createImageUrl } from '@/app/configs/cloudnary'
+
 const movieRepository = new KnexMovieRepository()
 const commentRepository = new KnexCommentsRepository()
 const userRepository = new KnexUserRepository()
@@ -29,13 +31,22 @@ const createMovie = async (req: Request, res: Response) => {
   const image = req.file
 
   let dataToUpdate
+  let ulrImage
   if (image) {
+    try {
+      const response = await createImageUrl(image.path)
+      ulrImage = response?.url
+    } catch (error) {
+      console.log(error)
+      throw new AppError('Error save image', 500)
+    }
     dataToUpdate = {
       user_id: req.user.sub,
       age,
       sinopse,
       title,
-      image: image.filename,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      image: ulrImage!,
     }
   } else {
     return res.status(409).json({ message: 'Choose an image' })

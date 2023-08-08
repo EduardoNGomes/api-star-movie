@@ -12,6 +12,9 @@ const envSchema = z.object({
   DATABASE_URL: z.string(),
   DATABASE_CLIENT: z.enum(['pg', 'sqlite']).default('pg'),
   SECRET_KEY: z.string(),
+  API_SECRET: z.string(),
+  API_KEY: z.string(),
+  CLOUD_NAME: z.string(),
 })
 
 export const env = envSchema.parse(process.env)
